@@ -1,6 +1,5 @@
 Data box extractor
 =============
-
 Description
 
 **Table of contents:**
