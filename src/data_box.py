@@ -79,3 +79,4 @@ def load_ovm(data_writer) -> int:
         count = load_data(file=file, data_writer=data_writer)
         print(f"Load OWM {url_ovm} count {count}")
         return count
+
