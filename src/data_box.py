@@ -6,10 +6,11 @@ namespace = 'http://seznam.gov.cz/ovm/datafile/seznam_ds/v1'
 ET.register_namespace('', namespace)
 ns = '{' + namespace + '}'
 
-
-# class DataWriter:
-#     def write(sefl, data: dict):
-#         print(data)
+# usage example:
+# run:
+#   load_po(dataWriter)
+#   load_pfo(print)
+#   load_ovm(dataWriter)
 
 def url_data_dtream_as_file(url):
     response = requests.get(url, stream=True)
@@ -78,8 +79,3 @@ def load_ovm(data_writer) -> int:
         count = load_data(file=file, data_writer=data_writer)
         print(f"Load OWM {url_ovm} count {count}")
         return count
-
-# usage example
-# load_po(dataWriter)
-# load_pfo(print)
-# load_ovm(dataWriter)
