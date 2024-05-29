@@ -11,7 +11,6 @@ ns = '{' + namespace + '}'
 #     def write(sefl, data: dict):
 #         print(data)
 
-
 def url_data_dtream_as_file(url):
     response = requests.get(url, stream=True)
     if response.status_code == 200:
@@ -22,6 +21,7 @@ def url_data_dtream_as_file(url):
 
 def get_data_columns() -> list:
     return [string.upper() for string in get_exact_xml_names()]
+
 
 def get_exact_xml_names() -> list:
     return ['id', 'type', 'subtype', 'tradeName', 'ico', 'isMaster', 'masterId']
@@ -34,9 +34,10 @@ def element_to_attr_name() -> dict:
         mapping[ns + col_name] = col_name.upper()
     return mapping
 
+
 def load_data(file, data_writer) -> int:
     """ data_writer is function processing dict parameter"""
-    mapping : dict = element_to_attr_name()
+    mapping: dict = element_to_attr_name()
     count = 0
     box_attributes = {}
     for event, elem in ET.iterparse(file):
@@ -78,10 +79,7 @@ def load_ovm(data_writer) -> int:
         print(f"Load OWM {url_ovm} count {count}")
         return count
 
-
-# udage example
-
-#load_po(dataWriter)
-#load_pfo(print)
-#load_ovm(dataWriter)
-
+# usage example
+# load_po(dataWriter)
+# load_pfo(print)
+# load_ovm(dataWriter)
