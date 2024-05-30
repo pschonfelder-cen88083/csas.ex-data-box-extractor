@@ -8,21 +8,18 @@ import logging
 from keboola.component.base import ComponentBase
 from keboola.component.exceptions import UserException
 
-
 from src.data_box import load_ovm
 from src.data_box import load_pfo
 from src.data_box import load_po
 from src.data_box import get_data_columns
 
-
-
 # configuration variables
-KEY_API_TOKEN = '#api_token'
+# KEY_API_TOKEN = '#api_token'
 KEY_PRINT_HELLO = 'print_hello'
 
 # list of mandatory parameters => if some is missing,
 # component will fail with readable message on initialization.
-#REQUIRED_PARAMETERS = [KEY_PRINT_HELLO]
+# REQUIRED_PARAMETERS = [KEY_PRINT_HELLO]
 REQUIRED_PARAMETERS = []
 REQUIRED_IMAGE_PARS = []
 
@@ -50,7 +47,7 @@ class Component(ComponentBase):
         # check for missing configuration parameters
         self.validate_configuration_parameters(REQUIRED_PARAMETERS)
         self.validate_image_parameters(REQUIRED_IMAGE_PARS)
-        params = self.configuration.parameters
+        # params = self.configuration.parameters
         # Access parameters in data/config.json
         # if params.get(KEY_PRINT_HELLO):
         #     logging.info("Hello World")
@@ -68,23 +65,24 @@ class Component(ComponentBase):
         logging.info(previous_state.get('some_state_parameter'))
 
         # Create output table (Tabledefinition - just metadata)
-        # table = self.create_out_table_definition('output.csv', incremental=True, primary_key=['timestamp'])
-        table = self.create_out_table_definition('output.csv', incremental=True, primary_key=['id'], columns= get_data_columns())
+        table_name = 'output.csv'
+        table = self.create_out_table_definition(table_name, incremental=False,
+                                                 primary_key=['id'], columns=get_data_columns())
 
         # get file path of the table (data/out/tables/Features.csv)
         out_table_path = table.full_path
         logging.info(out_table_path)
 
-        # input_table = input_tables[0]
+        # output_table is filled from public URL files
         with open(table.full_path, mode='wt', encoding='utf-8', newline='') as out_file:
             columns = get_data_columns()
             # write result with column added
             dict_writer = csv.DictWriter(out_file, fieldnames=columns)
             dict_writer.writeheader()
-            lambda_writer = lambda data: dict_writer.writerow(data)
-            load_po(lambda_writer)
-            load_ovm(lambda_writer)
-            load_pfo(lambda_writer)
+            def f(data): dict_writer.writerow(data)
+            load_po(f)
+            load_ovm(f)
+            load_pfo(f)
 
         # Save table manifest (output.csv.manifest) from the tabledefinition
         self.write_manifest(table)

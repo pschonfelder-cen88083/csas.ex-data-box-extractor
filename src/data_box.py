@@ -1,16 +1,22 @@
+"""
+Download public resources from data box as XML, parse it and writes data useg provided write function
+
+Usage example:
+ run:
+   load_po(print)
+   load_pfo(print)
+   load_ovm(print)
+
+"""
+
 import requests
-import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as et
 import io
 
 namespace = 'http://seznam.gov.cz/ovm/datafile/seznam_ds/v1'
-ET.register_namespace('', namespace)
+et.register_namespace('', namespace)
 ns = '{' + namespace + '}'
 
-# usage example:
-# run:
-#   load_po(dataWriter)
-#   load_pfo(print)
-#   load_ovm(dataWriter)
 
 def url_data_dtream_as_file(url):
     response = requests.get(url, stream=True)
@@ -29,7 +35,9 @@ def get_exact_xml_names() -> list:
 
 
 def element_to_attr_name() -> dict:
-    """ XML element name (with namespace) to result column name  """
+    """ XML element name (with namespace) to result column name
+    :rtype: object
+    """
     mapping = {}
     for col_name in get_exact_xml_names():
         mapping[ns + col_name] = col_name.upper()
@@ -37,11 +45,13 @@ def element_to_attr_name() -> dict:
 
 
 def load_data(file, data_writer) -> int:
-    """ data_writer is function processing dict parameter"""
+    """ data_writer is function processing dict parameter
+    :rtype: object
+    """
     mapping: dict = element_to_attr_name()
     count = 0
     box_attributes = {}
-    for event, elem in ET.iterparse(file):
+    for event, elem in et.iterparse(file):
         if elem.tag == ns + 'box':
             data_writer(box_attributes)
             box_attributes = {}  # Reset for next box
