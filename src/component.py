@@ -8,10 +8,10 @@ import logging
 from keboola.component.base import ComponentBase
 from keboola.component.exceptions import UserException
 
-from src.data_box import load_ovm
-from src.data_box import load_pfo
-from src.data_box import load_po
-from src.data_box import get_data_columns
+from data_box import load_ovm
+from data_box import load_pfo
+from data_box import load_po
+from data_box import get_data_columns
 
 # configuration variables
 # KEY_API_TOKEN = '#api_token'

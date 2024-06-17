@@ -86,6 +86,6 @@ def load_ovm(data_writer) -> int:
     # Orgány veřejné moci	https://www.mojedatovaschranka.cz/sds/datafile?format=xml&service=seznam_ds_ovm	16 MB
     url_ovm = "https://www.mojedatovaschranka.cz/sds/datafile?format=xml&service=seznam_ds_ovm"
     with url_data_dtream_as_file(url_ovm) as file:
-        count = load_data(file=file, data_writer=data_writer)
+        count: int = load_data(file=file, data_writer=data_writer)
         print(f"Load OWM {url_ovm} count {count}")
         return count
