@@ -67,7 +67,7 @@ class Component(ComponentBase):
         # Create output table (Tabledefinition - just metadata)
         table_name = 'output.csv'
         table = self.create_out_table_definition(table_name, incremental=False,
-                                                 primary_key=['id'], columns=get_data_columns())
+                                                 primary_key=['ID'], columns=get_data_columns())
 
         # get file path of the table (data/out/tables/Features.csv)
         out_table_path = table.full_path
